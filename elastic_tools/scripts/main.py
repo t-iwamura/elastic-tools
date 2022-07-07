@@ -1,8 +1,11 @@
 import logging
+from pathlib import Path
 
 import click
+import numpy as np
 
 from elastic_tools.config import load_config
+from elastic_tools.postprocess import calc_elastic_constants
 from elastic_tools.preprocess import make_deformed_structures
 
 
@@ -21,4 +24,6 @@ def main(config_file):
         make_deformed_structures(config.inputs_dir, use_symmetry=config.use_symmetry)
 
     if config.mode == "postprocess":
-        pass
+        stiffness = calc_elastic_constants(config.inputs_dir)
+        stiffness_path = Path(config.outputs_dir) / "stiffness.txt"
+        np.savetxt(str(stiffness_path), stiffness, fmt="%.4e")
