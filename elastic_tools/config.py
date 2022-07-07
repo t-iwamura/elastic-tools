@@ -9,6 +9,7 @@ from dataclasses_json import dataclass_json
 class Config:
     mode: str
     inputs_dir: str
+    outputs_dir: str
     use_symmetry: bool = True
 
 

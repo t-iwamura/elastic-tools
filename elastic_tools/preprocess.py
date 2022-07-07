@@ -1,6 +1,7 @@
+import json
 from pathlib import Path
 
-from pymatgen.analysis.elasticity.strain import DeformedStructureSet
+from pymatgen.analysis.elasticity.strain import DeformedStructureSet, Strain
 from pymatgen.io.vasp import Poscar
 
 
@@ -23,3 +24,8 @@ def make_deformed_structures(inputs_dir: str, use_symmetry: bool = True) -> None
         new_poscar_path = deformed_dir_path / "POSCAR"
         new_poscar = Poscar(structure)
         new_poscar.write_file(new_poscar_path)
+
+        strain = Strain.from_deformation(deformed_structures.deformations[i])
+        strain_json_path = deformed_dir_path / "strain.json"
+        with strain_json_path.open("w") as f:
+            json.dump(strain.as_dict(), f, indent=4)
