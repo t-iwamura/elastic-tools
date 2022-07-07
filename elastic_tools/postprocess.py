@@ -19,7 +19,7 @@ def parse_stress_and_strain(deform_dir_path: Path) -> Tuple[Stress, Strain]:
         Tuple[Stress, Strain]: tuple of Stress object and Strain object
     """
     vasprun_xml_path = deform_dir_path / "vasprun.xml"
-    vasprun = Vasprun(str(vasprun_xml_path))
+    vasprun = Vasprun(str(vasprun_xml_path), parse_potcar_file=False)
     stress = Stress(vasprun.ionic_steps[-1]["stress"])
 
     strain_json_path = deform_dir_path / "strain.json"
@@ -48,10 +48,14 @@ def calc_elastic_constants(inputs_dir: str) -> NDArray:
     )
 
     eq_vasprun_xml_path = inputs_dir_path / "vasp_outputs" / "vasprun.xml"
-    eq_vasprun = Vasprun(str(eq_vasprun_xml_path))
+    eq_vasprun = Vasprun(str(eq_vasprun_xml_path), parse_potcar_file=False)
     eq_stress = eq_vasprun.ionic_steps[-1]["stress"]
 
     et = ElasticTensor.from_independent_strains(
-        strains=strain_list, stresses=stress_list, eq_stress=eq_stress, vasp=True
+        strains=strain_list,
+        stresses=stress_list,
+        eq_stress=eq_stress,
+        vasp=True,
+        tol=1e-4,
     )
     return et.voigt
