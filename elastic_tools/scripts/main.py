@@ -18,7 +18,7 @@ def main(config_file):
         logging.info(" Start preprocess for elastic constants calculation")
         logging.info(f"     inputs dir: {config.inputs_dir}")
         logging.info(" Make deformed structures")
-        make_deformed_structures(config.inputs_dir)
+        make_deformed_structures(config.inputs_dir, use_symmetry=config.use_symmetry)
 
     if config.mode == "postprocess":
         pass
