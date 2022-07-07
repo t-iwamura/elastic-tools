@@ -1,0 +1,15 @@
+ADDGRID = .TRUE.
+ALGO = Normal
+EDIFF = 5e-05
+ENCUT = 520
+IBRION = -1
+ISMEAR = 1
+LASPH = .TRUE.
+LCHARG = False
+LREAL = False
+LWAVE = False
+NELM = 100
+NELMIN = 4
+PREC = Accurate
+SIGMA = 0.05
+NCORE = 4
