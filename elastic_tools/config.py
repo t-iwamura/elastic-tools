@@ -8,6 +8,7 @@ from dataclasses_json import dataclass_json
 @dataclass
 class Config:
     mode: str
+    inputs_dir: str
 
 
 def load_config(path: str) -> Config:
