@@ -1,5 +1,6 @@
 import json
 from dataclasses import dataclass
+from typing import Optional, Tuple
 
 from dataclasses_json import dataclass_json
 
@@ -11,6 +12,9 @@ class Config:
     inputs_dir: str
     outputs_dir: str
     use_symmetry: bool = True
+    # strain values
+    norm_strains: Optional[Tuple[float]] = None
+    shear_strains: Optional[Tuple[float]] = None
 
 
 def load_config(path: str) -> Config:
