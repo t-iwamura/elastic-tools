@@ -21,6 +21,7 @@ def main(config_file):
         logging.info(" Start preprocess for elastic constants calculation")
         logging.info(f"     calculation dir: {config.calc_dir}")
         logging.info(" Make deformed structures")
+
         norm_strains, shear_strains = None, None
         if config.norm_strains is not None:
             norm_strains = list(config.norm_strains)
@@ -35,7 +36,9 @@ def main(config_file):
         )
 
     if config.mode == "postprocess":
-        stress_list, strain_list, eq_stress = read_calc_results(config.calc_dir)
+        stress_list, strain_list, eq_stress = read_calc_results(
+            calc_dir=config.calc_dir, by_vasp=config.by_vasp
+        )
         et = ElasticTensor.from_independent_strains(
             strains=strain_list,
             stresses=stress_list,
