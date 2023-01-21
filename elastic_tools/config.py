@@ -9,8 +9,8 @@ from dataclasses_json import dataclass_json
 @dataclass
 class Config:
     mode: str
+    calc_dir: str
     inputs_dir: str
-    outputs_dir: str
     use_symmetry: bool = True
     # strain values
     norm_strains: Optional[Tuple[float]] = None
