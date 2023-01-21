@@ -1,9 +1,7 @@
 import json
 from pathlib import Path
-from typing import Tuple
+from typing import List, Tuple
 
-from numpy.typing import NDArray
-from pymatgen.analysis.elasticity.elastic import ElasticTensor
 from pymatgen.analysis.elasticity.strain import Strain
 from pymatgen.analysis.elasticity.stress import Stress
 from pymatgen.io.vasp import Vasprun
@@ -30,32 +28,26 @@ def parse_stress_and_strain(deform_dir_path: Path) -> Tuple[Stress, Strain]:
     return stress, strain
 
 
-def calc_elastic_constants(inputs_dir: str) -> NDArray:
-    """Calculate elastic constants from stress and strain data
+def read_calc_results(calc_dir: str) -> Tuple[List[Stress], List[Strain], Stress]:
+    """Read stress calculation results within calculation directory
 
     Args:
-        inputs_dir (str): path to inputs directory where deform-??? directories exist
+        calc_dir (str): Path to calculation directory.
 
     Returns:
-        NDArray: elastic stiffness tensor
+        Tuple[List[Stress], List[Strain], Stress]: The calculation results
     """
-    inputs_dir_path = Path(inputs_dir)
+    calc_dir_path = Path(calc_dir)
+    deform_set_dir_path = calc_dir_path / "deform_set"
     deform_dir_list = [
-        dir_path for dir_path in inputs_dir_path.glob("deform-[0-9][0-9][0-9]")
+        dir_path for dir_path in deform_set_dir_path.glob("deform-[0-9][0-9][0-9]")
     ]
     stress_list, strain_list = zip(
         *[parse_stress_and_strain(dir_path) for dir_path in deform_dir_list]
     )
 
-    eq_vasprun_xml_path = inputs_dir_path / "vasp_outputs" / "vasprun.xml"
+    eq_vasprun_xml_path = calc_dir_path / "eq_structure" / "sp" / "vasprun.xml"
     eq_vasprun = Vasprun(str(eq_vasprun_xml_path), parse_potcar_file=False)
-    eq_stress = eq_vasprun.ionic_steps[-1]["stress"]
+    eq_stress = Stress(eq_vasprun.ionic_steps[-1]["stress"])
 
-    et = ElasticTensor.from_independent_strains(
-        strains=strain_list,
-        stresses=stress_list,
-        eq_stress=eq_stress,
-        vasp=True,
-        tol=1e-4,
-    )
-    return et.voigt
+    return stress_list, strain_list, eq_stress

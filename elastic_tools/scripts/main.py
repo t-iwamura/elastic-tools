@@ -1,11 +1,11 @@
 import logging
-from pathlib import Path
 
 import click
 import numpy as np
+from pymatgen.analysis.elasticity.elastic import ElasticTensor
 
 from elastic_tools.config import load_config
-from elastic_tools.postprocess import calc_elastic_constants
+from elastic_tools.postprocess import read_calc_results
 from elastic_tools.preprocess import make_deformed_structures
 
 
@@ -34,6 +34,13 @@ def main(config_file):
         )
 
     if config.mode == "postprocess":
-        stiffness = calc_elastic_constants(config.calc_dir)
-        stiffness_path = Path(config.outputs_dir) / "stiffness.txt"
-        np.savetxt(str(stiffness_path), stiffness, fmt="%.4e")
+        stress_list, strain_list, eq_stress = read_calc_results(config.calc_dir)
+        et = ElasticTensor.from_independent_strains(
+            strains=strain_list,
+            stresses=stress_list,
+            eq_stress=eq_stress,
+            vasp=True,
+            tol=1e-4,
+        )
+        stiffness_filename = "/".join([config.calc_dir, "stiffness.txt"])
+        np.savetxt(stiffness_filename, et.voigt, fmt="%.4e")
