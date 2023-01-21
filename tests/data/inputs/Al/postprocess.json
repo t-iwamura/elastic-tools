@@ -1,0 +1,7 @@
+{
+    "mode": "postprocess",
+    "calc_dir": ".",
+    "inputs_dir": ".",
+    "by_vasp": true,
+    "use_symmetry": false
+}
