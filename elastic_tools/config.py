@@ -9,7 +9,7 @@ from dataclasses_json import dataclass_json
 @dataclass
 class Config:
     mode: str
-    inputs_dir: str
+    calc_dir: str
     outputs_dir: str
     use_symmetry: bool = True
     # strain values

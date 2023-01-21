@@ -19,7 +19,7 @@ def main(config_file):
 
     if config.mode == "preprocess":
         logging.info(" Start preprocess for elastic constants calculation")
-        logging.info(f"     inputs dir: {config.inputs_dir}")
+        logging.info(f"     inputs dir: {config.calc_dir}")
         logging.info(" Make deformed structures")
         norm_strains, shear_strains = None, None
         if config.norm_strains is not None:
@@ -27,13 +27,13 @@ def main(config_file):
         if config.shear_strains is not None:
             shear_strains = list(config.shear_strains)
         make_deformed_structures(
-            config.inputs_dir,
+            config.calc_dir,
             use_symmetry=config.use_symmetry,
             norm_strains=norm_strains,
             shear_strains=shear_strains,
         )
 
     if config.mode == "postprocess":
-        stiffness = calc_elastic_constants(config.inputs_dir)
+        stiffness = calc_elastic_constants(config.calc_dir)
         stiffness_path = Path(config.outputs_dir) / "stiffness.txt"
         np.savetxt(str(stiffness_path), stiffness, fmt="%.4e")
