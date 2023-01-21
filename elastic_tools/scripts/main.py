@@ -6,7 +6,7 @@ from pymatgen.analysis.elasticity.elastic import ElasticTensor
 
 from elastic_tools.config import load_config
 from elastic_tools.postprocess import read_calc_results
-from elastic_tools.preprocess import make_deformed_structures
+from elastic_tools.preprocess import arrange_deform_set_dir
 
 
 @click.command()
@@ -19,15 +19,16 @@ def main(config_file):
 
     if config.mode == "preprocess":
         logging.info(" Start preprocess for elastic constants calculation")
-        logging.info(f"     inputs dir: {config.calc_dir}")
+        logging.info(f"     calculation dir: {config.calc_dir}")
         logging.info(" Make deformed structures")
         norm_strains, shear_strains = None, None
         if config.norm_strains is not None:
             norm_strains = list(config.norm_strains)
         if config.shear_strains is not None:
             shear_strains = list(config.shear_strains)
-        make_deformed_structures(
+        arrange_deform_set_dir(
             config.calc_dir,
+            config.inputs_dir,
             use_symmetry=config.use_symmetry,
             norm_strains=norm_strains,
             shear_strains=shear_strains,
