@@ -30,6 +30,7 @@ def main(config_file):
         arrange_deform_set_dir(
             config.calc_dir,
             config.inputs_dir,
+            is_paramagnetic=config.is_paramagnetic,
             use_symmetry=config.use_symmetry,
             norm_strains=norm_strains,
             shear_strains=shear_strains,
