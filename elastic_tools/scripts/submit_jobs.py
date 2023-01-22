@@ -46,9 +46,10 @@ def main(partition):
     """
     root_dir_path = Path.cwd()
     for dir_path in root_dir_path.glob("deform-???"):
+        job_name = "-".join(["def", dir_path.name.split("-")[-1]])
+        job_script_content = make_job_script(job_name)
         job_script_path = dir_path / "job.sh"
         with job_script_path.open("w") as f:
-            job_script_content = make_job_script(dir_path.name)
             f.write(job_script_content)
 
         os.chdir(dir_path)
