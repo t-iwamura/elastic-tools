@@ -12,6 +12,7 @@ class Config:
     calc_dir: str
     inputs_dir: str
     by_vasp: bool = True
+    is_paramagnetic: bool = False
     use_symmetry: bool = True
     # strain values
     norm_strains: Optional[Tuple[float]] = None
