@@ -19,8 +19,9 @@ def parse_stress_and_strain(
     Returns:
         Tuple[Stress, Strain]: tuple of Stress object and Strain object.
     """
+    sp_dir_path = deform_dir_path / "sp"
     if by_vasp:
-        vasprun_xml_path = deform_dir_path / "vasprun.xml"
+        vasprun_xml_path = sp_dir_path / "vasprun.xml"
         vasprun = Vasprun(str(vasprun_xml_path), parse_potcar_file=False)
         stress = Stress(vasprun.ionic_steps[-1]["stress"])
     else:
@@ -29,7 +30,7 @@ def parse_stress_and_strain(
             predict_dict = json.load(f)
         stress = Stress(predict_dict["stress"])
 
-    strain_json_path = deform_dir_path / "strain.json"
+    strain_json_path = sp_dir_path / "strain.json"
     with strain_json_path.open("r") as f:
         strain_dict = json.load(f)
     strain = Strain.from_dict(strain_dict)
