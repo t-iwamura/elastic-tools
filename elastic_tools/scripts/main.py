@@ -48,4 +48,4 @@ def main(config_file):
             tol=1e-4,
         )
         stiffness_filename = "/".join([config.calc_dir, "stiffness.txt"])
-        np.savetxt(stiffness_filename, et.voigt, fmt="%.4e")
+        np.savetxt(stiffness_filename, et.voigt, fmt="%.3f")
