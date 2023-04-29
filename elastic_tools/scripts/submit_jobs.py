@@ -21,6 +21,7 @@ def make_job_script(name: str) -> str:
         "#SBATCH --nodes=1\n"
         "#SBATCH -o std.log\n"
         "#SBATCH -e err.log\n"
+        "#SBATCH --open-mode=append\n"
         "\n"
         "export MPI_PATH=/usr/local/calc/openmpi-gcc\n"
         "export PATH=${MPI_PATH}/bin:${PATH}\n"
