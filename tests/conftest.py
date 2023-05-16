@@ -7,5 +7,5 @@ INPUTS_DIR_PATH = tests_dir_path / "data" / "inputs"
 
 
 @pytest.fixture()
-def al_dir_path():
+def al_dir_path() -> Path:
     return INPUTS_DIR_PATH / "Al"
