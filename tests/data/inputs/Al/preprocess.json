@@ -1,0 +1,6 @@
+{
+    "mode": "preprocess",
+    "inputs_dir": "data/inputs/Al/002",
+    "outputs_dir": ".",
+    "use_symmetry": false
+}
