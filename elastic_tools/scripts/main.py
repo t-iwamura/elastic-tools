@@ -14,6 +14,7 @@ from elastic_tools.preprocess import arrange_deform_set_dir
 def main(config_file):
     """Tools for elastic constants calculation"""
     logging.basicConfig(level=logging.DEBUG)
+
     logging.info(" Load config file")
     config = load_config(config_file)
 
@@ -37,6 +38,8 @@ def main(config_file):
         )
 
     if config.mode == "postprocess":
+        logging.info(" Start postprocess for elastic constants calculation")
+
         stress_list, strain_list, eq_stress = read_calc_results(
             calc_dir=config.calc_dir, by_vasp=config.by_vasp
         )
@@ -47,5 +50,7 @@ def main(config_file):
             vasp=True,
             tol=1e-4,
         )
+
+        logging.info(" Dumping elastic stiffness")
         stiffness_filename = "/".join([config.calc_dir, "stiffness.txt"])
         np.savetxt(stiffness_filename, et.voigt, fmt="%.3f")

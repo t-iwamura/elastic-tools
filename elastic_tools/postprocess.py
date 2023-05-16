@@ -14,11 +14,12 @@ def parse_stress_and_strain(
 
     Args:
         deform_dir_path (Path): path to deform-??? directory.
-        by_vasp (bool): Whether or not the result is calculated by VASP.
+        by_vasp (bool): Whether the result is calculated by VASP or not.
 
     Returns:
         Tuple[Stress, Strain]: tuple of Stress object and Strain object.
     """
+    # Parse stress in deform-???/sp
     sp_dir_path = deform_dir_path / "sp"
     if by_vasp:
         vasprun_xml_path = sp_dir_path / "vasprun.xml"
@@ -41,17 +42,17 @@ def parse_stress_and_strain(
 def read_calc_results(
     calc_dir: str, by_vasp: bool = True
 ) -> Tuple[List[Stress], List[Strain], Stress]:
-    """Read stress calculation results within calculation directory
+    """Read stress calculation results in calculation directory
 
     Args:
         calc_dir (str): Path to calculation directory.
-        by_vasp (bool): Whether or not the result is calculated by VASP.
+        by_vasp (bool): Whether the result is calculated by VASP or not.
 
     Returns:
         Tuple[List[Stress], List[Strain], Stress]: The calculation results
     """
-    calc_dir_path = Path(calc_dir)
-    deform_set_dir_path = calc_dir_path / "deform_set"
+    # Parse stress and strain data in deform_set/deform-???
+    deform_set_dir_path = Path(calc_dir) / "deform_set"
     deform_dir_list = [
         dir_path for dir_path in deform_set_dir_path.glob("deform-[0-9][0-9][0-9]")
     ]
@@ -62,7 +63,8 @@ def read_calc_results(
         ]
     )
 
-    eq_structure_dir_path = calc_dir_path / "eq_structure" / "sp"
+    # Parse stress of equilibrium structure
+    eq_structure_dir_path = Path(calc_dir) / "eq_structure" / "sp"
     if by_vasp:
         eq_vasprun_xml_path = eq_structure_dir_path / "vasprun.xml"
         eq_vasprun = Vasprun(str(eq_vasprun_xml_path), parse_potcar_file=False)
