@@ -43,10 +43,8 @@ def arrange_deform_set_dir(
         shear_strains=shear_strains,
     )
 
-    inputs_dir_path = Path(inputs_dir)
-    incar_src_path = inputs_dir_path / "INCAR"
-    kpoints_src_path = inputs_dir_path / "KPOINTS"
-    potcar_src_path = inputs_dir_path / "POTCAR"
+    # Make a list of the files in inputs directory
+    file_path_list = [path for path in Path(inputs_dir).glob("*")]
 
     deform_set_dir_path = Path(calc_dir) / "deform_set"
     for i, deformed_structure in enumerate(deformed_structures):
@@ -59,14 +57,9 @@ def arrange_deform_set_dir(
         with strain_json_path.open("w") as f:
             json.dump(strain.as_dict(), f, indent=4)
 
-        incar_path = deformed_dir_path / "INCAR"
-        shutil.copyfile(incar_src_path, incar_path)
-
-        kpoints_path = deformed_dir_path / "KPOINTS"
-        shutil.copyfile(kpoints_src_path, kpoints_path)
-
-        potcar_path = deformed_dir_path / "POTCAR"
-        shutil.copyfile(potcar_src_path, potcar_path)
+        # Copy files in inputs directory to deform directory
+        for file_path in file_path_list:
+            shutil.copyfile(file_path, deformed_dir_path / file_path.name)
 
         new_poscar = Poscar(deformed_structure)
         new_poscar_path = deformed_dir_path / "POSCAR"
