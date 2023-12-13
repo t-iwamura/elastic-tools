@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="elastic_tools",
-    version="1.1.0",
+    version="1.1.1",
     author="Taiki Iwamura",
     author_email="takki.0206@gmail.com",
     description=("Tools for elastic constants calculation"),
