@@ -8,10 +8,10 @@ setup(
     version="1.1.1",
     author="Taiki Iwamura",
     author_email="takki.0206@gmail.com",
-    description=("Tools for elastic constants calculation"),
+    description="Tools for elastic constants calculation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/iwamura-lab/elastic-tools",
+    url="https://github.com/t-iwamura/elastic-tools",
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

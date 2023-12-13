@@ -1,9 +1,9 @@
 # elastic-tools
-Python package to support elastic constants calculation
+CLI application for elastic constants calculation
 
 ## Overview
 
-This package helps users perform elastic constants calculation. By using this package, you can generate necessary deformed structures from an relaxed structure and calculate elastic stiffness by parsing the calculation results about the generated structures.
+This app helps users perform elastic constants calculation. By using this app, you can generate necessary deformed structures from an relaxed structure and calculate elastic stiffness by parsing the calculation results about the generated structures.
 
 ## Installation
 
